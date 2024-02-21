@@ -7,11 +7,14 @@ package edu.eci.arsw.blueprints.test.persistence.impl;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
 import edu.eci.arsw.blueprints.model.Point;
+import edu.eci.arsw.blueprints.model.Redundance;
+import edu.eci.arsw.blueprints.model.Subsampling;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
 import edu.eci.arsw.blueprints.persistence.impl.InMemoryBlueprintPersistence;
 
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
@@ -132,5 +135,45 @@ public class InMemoryPersistenceTest {
         assertNull(blueprints);
     }
 
-    
+    @Test
+    public void filtredAbpBySubsampling(){
+        Blueprint bluePrintExample = new Blueprint("author1", "blueprint1");
+        Subsampling filtre = new Subsampling();
+        Point[] points = new Point[3];
+        Point point_1 = new Point(3, 2);
+        Point point_2 = new Point(7,1);
+        Point point_3 = new Point(10,3);
+        points[0] = point_1;
+        points[1] = point_2;
+        points[2] = point_3;
+        for(int i = 0; i < points.length; i++){
+            bluePrintExample.addPoint(points[i]);
+        }
+        List<Point> filtredPointList  = filtre.getFlat(bluePrintExample);
+        Point[] expect ={point_1, point_3};
+        for(int i = 0;i<expect.length;i++ ){
+            assertEquals(expect[i],filtredPointList.get(i));
+        }
+    }
+
+    @Test
+    public void filtredBpByRedundance(){
+        Redundance filtre = new Redundance();
+        Blueprint bluePrintExample = new Blueprint("author1", "blueprint1");
+        Point[] points = new Point[3];
+        Point point_1 = new Point(3, 2);
+        Point point_2 = new Point(3,2);
+        Point point_3 = new Point(10,3);
+        points[0] = point_1;
+        points[1] = point_2;
+        points[2] = point_3;
+        for(int i = 0; i < points.length; i++){
+            bluePrintExample.addPoint(points[i]);
+        }
+        List<Point> filtredPointList  = filtre.getFlat(bluePrintExample);
+        Point[] expetedLists ={point_1, point_3};
+        for(int i = 0;i<expetedLists.length;i++ ){
+            assertEquals(expetedLists[i],filtredPointList.get(i));
+        }
+    }
 }
