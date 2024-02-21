@@ -9,4 +9,9 @@
 
     <context:component-scan base-package="edu.eci.arsw" />
 
+    <!-- Configuración de BlueprintServices con inyección de dependencias -->
+    <bean id="blueprintsServices" class="edu.eci.arsw.blueprints.services.BlueprintsServices">
+        <constructor-arg ref="inMemoryBlueprintPersistence" />
+    </bean>
+
 </beans>

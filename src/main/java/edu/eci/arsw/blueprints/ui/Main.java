@@ -29,7 +29,7 @@ public class Main {
         points[1] = point_2;
         points[2] = point_3;
 
-        try{
+
             blueprint = new Blueprint("Christian","Arsw");
             blueprintSpecified = new Blueprint("Carolina", "Arsw",points);
             createBluePrint(bps, blueprint);
@@ -37,35 +37,45 @@ public class Main {
             createBluePrint(bps,blueprintSpecified);
             selectAllBlueprints(bps);
             selectSpecifiedBluePrint(bps, "Christian");
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+    }
+
+    public static void createBluePrint(BlueprintsServices bps, Blueprint bp) {
+        try {
+            bps.addNewBlueprint(bp);
+            System.out.println("BluePrint " + bp.getName() +" created successfull\n ");
+        } catch (BlueprintPersistenceException e) {
+            System.out.println("Error: "+e);
         }
-
     }
 
-    public static void createBluePrint(BlueprintsServices bps, Blueprint bp)
-            throws BlueprintPersistenceException {
-        System.out.println("BluePrint " + bp.getName() +" created successfull\n ");
-        bps.addNewBlueprint(bp);
+    public static void selectBluePrint(BlueprintsServices bps, String author, String name) {
+        try {
+            System.out.println("Selecting blueprint...\n\t " + bps.getBlueprint(author,name) + "\n");
+        } catch (BlueprintNotFoundException e) {
+            System.out.println("Error: "+e);
+        }
     }
 
-    public static void selectBluePrint(BlueprintsServices bps, String author, String name)
-            throws BlueprintNotFoundException {
-        System.out.println("Selecting blueprint...\n\t " + bps.getBlueprint(author,name) + "\n");
+    public static void selectAllBlueprints(BlueprintsServices bps){
+        Map<Tuple<String, String>,Blueprint> blueprintMap = null;
+        try {
+            blueprintMap = bps.getAllBlueprints();
+            System.out.println("Listing all BluePrints... \n");
+            blueprintMap.forEach((key, value) -> System.out.println("\t" + value));
+        } catch (BlueprintPersistenceException e) {
+            System.out.println("Error: "+e);
+        }
     }
 
-    public static void selectAllBlueprints(BlueprintsServices bps)
-            throws BlueprintPersistenceException {
-        Map<Tuple<String, String>,Blueprint> blueprintMap = bps.getAllBlueprints();
-        System.out.println("Listing all BluePrints... \n");
-        blueprintMap.forEach((key, value) -> System.out.println("\t" + value));
-    }
-
-    public static void selectSpecifiedBluePrint(BlueprintsServices bps, String author)
-            throws BlueprintNotFoundException {
-        Set<Blueprint> blueprints = bps.getBlueprintsByAuthor(author);
-        System.out.println("\nListing all BluePrints of:" + author);
-        blueprints.forEach(blueprint -> System.out.println("\t" + blueprint));
+    public static void selectSpecifiedBluePrint(BlueprintsServices bps, String author){
+        Set<Blueprint> blueprints = null;
+        try {
+            blueprints = bps.getBlueprintsByAuthor(author);
+            System.out.println("\nListing all BluePrints of:" + author);
+            blueprints.forEach(blueprint -> System.out.println("\t" + blueprint));
+        } catch (BlueprintNotFoundException e) {
+            System.out.println("Error: "+e);
+        }
     }
 
 }

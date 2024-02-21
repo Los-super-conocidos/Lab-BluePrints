@@ -26,12 +26,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BlueprintsServices {
-   
-    @Autowired
     public BlueprintsPersistence bpp;
-
-    public BlueprintsServices(){
-
+    @Autowired
+    public BlueprintsServices(BlueprintsPersistence blueprintsPersistence){
+        this.bpp=blueprintsPersistence;
     }
     
     public void addNewBlueprint(Blueprint bp) throws BlueprintPersistenceException {
