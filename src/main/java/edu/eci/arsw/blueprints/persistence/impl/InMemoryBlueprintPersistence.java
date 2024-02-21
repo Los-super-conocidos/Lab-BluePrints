@@ -10,14 +10,21 @@ import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
+import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
  * @author hcadavid
  */
+@Service
 public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
+
+
 
     private final Map<Tuple<String,String>,Blueprint> blueprints=new HashMap<>();
 
@@ -41,9 +48,32 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 
     @Override
     public Blueprint getBlueprint(String author, String bprintname) throws BlueprintNotFoundException {
-        return blueprints.get(new Tuple<>(author, bprintname));
+        Blueprint blueprint = blueprints.get(new Tuple<>(author, bprintname));
+        if (blueprint == null) {
+            throw new BlueprintNotFoundException("Blueprint not found: " + author + " - " + bprintname);
+        }
+        return blueprint;
     }
 
-    
-    
+    @Override
+    public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException {
+        Set<Blueprint> authorBlueprints = new HashSet<>();
+        for (Blueprint blueprint : blueprints.values()) {
+            if(blueprint.getAuthor() != null) {
+                if (blueprint.getAuthor().equals(author)) {
+                    authorBlueprints.add(blueprint);
+                }
+            }
+        }
+        if (authorBlueprints.isEmpty()) {
+            throw new BlueprintNotFoundException("No blueprints found for author: " + author);
+        }
+        return authorBlueprints;
+    }
+
+    @Override
+    public Map<Tuple<String,String>,Blueprint> getAllBlueprints(){
+        return blueprints;
+    }
+
 }

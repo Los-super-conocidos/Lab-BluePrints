@@ -1,6 +1,8 @@
 
 package edu.eci.arsw.blueprints.model;
 
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +24,7 @@ public class Blueprint {
     }
          
     public Blueprint(String author, String name){
+        this.author = author;
         this.name=name;
         points=new ArrayList<>();
     }
