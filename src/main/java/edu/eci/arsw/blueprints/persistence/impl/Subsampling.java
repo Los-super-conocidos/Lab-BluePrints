@@ -5,6 +5,7 @@ import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BluePrintsFiltred;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,7 +15,7 @@ public class Subsampling implements BluePrintsFiltred {
 
     @Override
     public Blueprint getFlat(Blueprint flat) {
-        List<Point> pointList = flat.getPoints();
+        List<Point> pointList =new ArrayList<>(flat.getPoints());
         int counter = 1;
         for(Point i: pointList){
             if(counter%2 == 0){

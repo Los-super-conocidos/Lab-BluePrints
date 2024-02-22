@@ -137,32 +137,28 @@ public class InMemoryPersistenceTest {
 
     @Test
     public void filtredAbpBySubsampling(){
-        Blueprint bluePrintExample = new Blueprint("author1", "blueprint1");
+
         Subsampling filtre = new Subsampling();
         Point[] points = new Point[]{new Point(3, 2),new Point(3,2),new Point(10,3)};
-        for(int i = 0; i < points.length; i++){
-            bluePrintExample.addPoint(points[i]);
-        }
-        /*List<Point> filtredPointList  = filtre.getFlat(bluePrintExample);
-        Point[] expect ={point_1, point_3};
+        Blueprint bluePrintExample = new Blueprint("author1", "blueprint1",points);
+        List<Point> filtredPointList  =  filtre.getFlat(bluePrintExample).getPoints();
+        Point[] expect =new Point[]{new Point(3, 2),new Point(10,3)};
         for(int i = 0;i<expect.length;i++ ){
-            assertEquals(expect[i],filtredPointList.get(i));
-        }*/
+            assertEquals(expect[i].getX(),filtredPointList.get(i).getX());
+            assertEquals(expect[i].getY(),filtredPointList.get(i).getY());
+        }
     }
 
     @Test
     public void filtredBpByRedundance(){
         Redundance filtre = new Redundance();
-        Blueprint bluePrintExample = new Blueprint("author1", "blueprint1");
         Point[] points = new Point[]{new Point(3, 2),new Point(3,2),new Point(10,3)};
-
-        for(int i = 0; i < points.length; i++){
-            bluePrintExample.addPoint(points[i]);
-        }
-        /*List<Point> filtredPointList  = filtre.getFlat(bluePrintExample);
-        Point[] expetedLists ={point_1, point_3};
+        Blueprint bluePrintExample = new Blueprint("author1", "blueprint1",points);
+        List<Point> filtredPointList  = filtre.getFlat(bluePrintExample).getPoints();
+        Point[] expetedLists =new Point[]{new Point(3, 2),new Point(10,3)};
         for(int i = 0;i<expetedLists.length;i++ ){
-            assertEquals(expetedLists[i],filtredPointList.get(i));
-        }*/
+            assertEquals(expetedLists[i].getX(),filtredPointList.get(i).getX());
+            assertEquals(expetedLists[i].getY(),filtredPointList.get(i).getY());
+        }
     }
 }

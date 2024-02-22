@@ -5,6 +5,7 @@ import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BluePrintsFiltred;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,7 +15,7 @@ public class Redundance implements BluePrintsFiltred {
 
     @Override
     public Blueprint getFlat(Blueprint flat) {
-        List<Point> listFiltr = flat.getPoints();
+        List<Point> listFiltr =new ArrayList<>(flat.getPoints());
         int count = 0;
         while(count < listFiltr.size() -1){
             int index = count +1;
