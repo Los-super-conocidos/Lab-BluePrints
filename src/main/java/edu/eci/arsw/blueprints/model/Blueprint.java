@@ -30,8 +30,8 @@ public class Blueprint {
     }
 
     public Blueprint() {
-    }    
-    
+    }
+
     public String getName() {
         return name;
     }
@@ -48,9 +48,18 @@ public class Blueprint {
         this.points.add(p);
     }
 
+    public String pointsToString(){
+        String pointsString="[ ";
+        for (Point point:points){
+            pointsString+="("+point.getX()+", "+point.getY()+") ";
+        }
+        pointsString+="]";
+        return pointsString;
+    }
+
     @Override
     public String toString() {
-        return "Blueprint{" + "author=" + author + ", name=" + name + '}';
+        return "Blueprint{" + "author=" + author + ", name=" + name + '}'+pointsToString();
     }
 
     @Override

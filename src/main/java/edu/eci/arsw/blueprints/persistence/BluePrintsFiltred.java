@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface BluePrintsFiltred {
 
-    public List<Point> getFlat(Blueprint flat);
+    public Blueprint getFlat(Blueprint flat);
 }

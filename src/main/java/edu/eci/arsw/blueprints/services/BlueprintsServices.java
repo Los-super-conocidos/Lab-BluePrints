@@ -7,14 +7,12 @@ package edu.eci.arsw.blueprints.services;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
 import edu.eci.arsw.blueprints.model.Point;
+import edu.eci.arsw.blueprints.persistence.BluePrintsFiltred;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
 
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import edu.eci.arsw.blueprints.persistence.impl.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +24,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BlueprintsServices {
-    public BlueprintsPersistence bpp;
+    BlueprintsPersistence bpp;
+    BluePrintsFiltred filtred;
+
     @Autowired
-    public BlueprintsServices(BlueprintsPersistence blueprintsPersistence){
+    public BlueprintsServices(BlueprintsPersistence blueprintsPersistence,BluePrintsFiltred bluePrintsFiltred){
         this.bpp=blueprintsPersistence;
+        this.filtred=bluePrintsFiltred;
     }
     
     public void addNewBlueprint(Blueprint bp) throws BlueprintPersistenceException {
@@ -61,5 +62,15 @@ public class BlueprintsServices {
     public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException {
         return bpp.getBlueprintsByAuthor(author);
     }
-    
+
+    /**
+     *
+     * @param author blueprint's author
+     * @param name blueprint's name
+     * @return the blueprint of the given name created by the given author but filtered.
+     * @throws BlueprintNotFoundException if there is no such blueprint
+     */
+    public Blueprint getFilteredBlueprint(String author, String name) throws BlueprintNotFoundException {
+        return filtred.getFlat(bpp.getBlueprint(author,name));
+    }
 }

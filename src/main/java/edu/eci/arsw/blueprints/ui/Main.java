@@ -19,24 +19,22 @@ public class Main {
     public static void main(String args[]) {
         ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
         BlueprintsServices bps = ac.getBean(BlueprintsServices.class);
-        Blueprint blueprint;
-        Blueprint blueprintSpecified;
-        Point[] points = new Point[3];
-        Point point_1 = new Point(3, 2);
-        Point point_2 = new Point(7,1);
-        Point point_3 = new Point(10,3);
-        points[0] = point_1;
-        points[1] = point_2;
-        points[2] = point_3;
+
+        Point[] points = new Point[]{new Point(3, 2),new Point(3,2),new Point(10,3)};
+
+        Blueprint blueprint= new Blueprint("Christian","Arsw");
+        Blueprint blueprintSpecified= new Blueprint("Carolina", "Arsw",points);
 
 
-            blueprint = new Blueprint("Christian","Arsw");
-            blueprintSpecified = new Blueprint("Carolina", "Arsw",points);
-            createBluePrint(bps, blueprint);
-            selectBluePrint(bps,"Christian","Arsw");
-            createBluePrint(bps,blueprintSpecified);
-            selectAllBlueprints(bps);
-            selectSpecifiedBluePrint(bps, "Christian");
+        /*createBluePrint(bps, blueprint);
+        selectBluePrint(bps,"Christian","Arsw");*/
+
+        createBluePrint(bps,blueprintSpecified);
+        selectBluePrint(bps,"Carolina", "Arsw");
+        filteredBlueprintByAnyfilter(bps,"Carolina", "Arsw");
+
+        /*selectAllBlueprints(bps);
+        selectSpecifiedBluePrint(bps, "Christian");*/
     }
 
     public static void createBluePrint(BlueprintsServices bps, Blueprint bp) {
@@ -73,6 +71,14 @@ public class Main {
             blueprints = bps.getBlueprintsByAuthor(author);
             System.out.println("\nListing all BluePrints of:" + author);
             blueprints.forEach(blueprint -> System.out.println("\t" + blueprint));
+        } catch (BlueprintNotFoundException e) {
+            System.out.println("Error: "+e);
+        }
+    }
+
+    public static void filteredBlueprintByAnyfilter(BlueprintsServices bps, String author, String name){
+        try {
+            System.out.println("Filtering the blueprint...\n\t " + bps.getFilteredBlueprint(author,name) + "\n");
         } catch (BlueprintNotFoundException e) {
             System.out.println("Error: "+e);
         }

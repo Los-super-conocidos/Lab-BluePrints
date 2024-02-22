@@ -1,15 +1,19 @@
-package edu.eci.arsw.blueprints.model;
+package edu.eci.arsw.blueprints.persistence.impl;
 
+import edu.eci.arsw.blueprints.model.Blueprint;
+import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BluePrintsFiltred;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class Redundance implements BluePrintsFiltred {
     public Redundance() {
     }
 
     @Override
-    public List<Point> getFlat(Blueprint flat) {
+    public Blueprint getFlat(Blueprint flat) {
         List<Point> listFiltr = flat.getPoints();
         int count = 0;
         while(count < listFiltr.size() -1){
@@ -20,6 +24,8 @@ public class Redundance implements BluePrintsFiltred {
                 count++;
             }
         }
-        return listFiltr;
+        Point[] pnts;
+        pnts = listFiltr.toArray(new Point[0]);
+        return new Blueprint(flat.getAuthor(),flat.getName(),pnts);
     }
 }
