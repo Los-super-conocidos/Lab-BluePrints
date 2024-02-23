@@ -59,13 +59,12 @@ public class Blueprint {
 
     @Override
     public String toString() {
-        return "Blueprint{" + "author=" + author + ", name=" + name + '}'+pointsToString();
+        return "Blueprint{" + "author=" + author + ", name=" + name +"} "+pointsToString();
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        return hash;
+        return getPoints().hashCode();
     }
 
     @Override

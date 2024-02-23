@@ -14,6 +14,7 @@ import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
 import edu.eci.arsw.blueprints.persistence.impl.InMemoryBlueprintPersistence;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -137,28 +138,56 @@ public class InMemoryPersistenceTest {
 
     @Test
     public void filtredAbpBySubsampling(){
-
         Subsampling filtre = new Subsampling();
+
         Point[] points = new Point[]{new Point(3, 2),new Point(3,2),new Point(10,3)};
-        Blueprint bluePrintExample = new Blueprint("author1", "blueprint1",points);
-        List<Point> filtredPointList  =  filtre.getFlat(bluePrintExample).getPoints();
-        Point[] expect =new Point[]{new Point(3, 2),new Point(10,3)};
-        for(int i = 0;i<expect.length;i++ ){
-            assertEquals(expect[i].getX(),filtredPointList.get(i).getX());
-            assertEquals(expect[i].getY(),filtredPointList.get(i).getY());
-        }
+
+        Point[] points1 = new Point[]{new Point(3, 2), new Point(5, 5), new Point(10, 3), new Point(8, 9)};
+
+        Point[] points2 = new Point[]{new Point(3, 2), new Point(3, 2), new Point(5, 5), new Point(10, 3), new Point(7, 8)};
+
+        Point[] points3 = new Point[]{new Point(3, 2), new Point(3, 2), new Point(5, 5), new Point(5, 5), new Point(5, 5), new Point(10, 3), new Point(7, 7)};
+
+        Point[] points4 = new Point[]{new Point(3, 2), new Point(3, 2), new Point(3, 2),  new Point(5, 5), new Point(5, 5), new Point(5, 5), new Point(10, 3), new Point(10, 3), new Point(10, 3), new Point(4, 6), new Point(4, 6)};
+
+        Blueprint blueprintTest = filtre.getFlat(new Blueprint("","",points));
+        Blueprint blueprintTest1 = filtre.getFlat(new Blueprint("","",points1));
+        Blueprint blueprintTest2 = filtre.getFlat(new Blueprint("","",points2));
+        Blueprint blueprintTest3 = filtre.getFlat(new Blueprint("","",points3));
+        Blueprint blueprintTest4 = filtre.getFlat(new Blueprint("","",points4));
+
+        assertEquals("[ (3, 2) (10, 3) ]",blueprintTest.pointsToString());
+        assertEquals("[ (3, 2) (10, 3) ]",blueprintTest1.pointsToString());
+        assertEquals("[ (3, 2) (5, 5) (7, 8) ]",blueprintTest2.pointsToString());
+        assertEquals("[ (3, 2) (5, 5) (5, 5) (7, 7) ]",blueprintTest3.pointsToString());
+        assertEquals("[ (3, 2) (3, 2) (5, 5) (10, 3) (10, 3) (4, 6) ]",blueprintTest4.pointsToString());
     }
+
 
     @Test
     public void filtredBpByRedundance(){
         Redundance filtre = new Redundance();
+
         Point[] points = new Point[]{new Point(3, 2),new Point(3,2),new Point(10,3)};
-        Blueprint bluePrintExample = new Blueprint("author1", "blueprint1",points);
-        List<Point> filtredPointList  = filtre.getFlat(bluePrintExample).getPoints();
-        Point[] expetedLists =new Point[]{new Point(3, 2),new Point(10,3)};
-        for(int i = 0;i<expetedLists.length;i++ ){
-            assertEquals(expetedLists[i].getX(),filtredPointList.get(i).getX());
-            assertEquals(expetedLists[i].getY(),filtredPointList.get(i).getY());
-        }
+
+        Point[] points1 = new Point[]{new Point(3, 2), new Point(5, 5), new Point(10, 3), new Point(8, 9)};
+
+        Point[] points2 = new Point[]{new Point(3, 2), new Point(3, 2), new Point(5, 5), new Point(10, 3), new Point(7, 8)};
+
+        Point[] points3 = new Point[]{new Point(3, 2), new Point(3, 2), new Point(5, 5), new Point(5, 5), new Point(5, 5), new Point(10, 3), new Point(7, 7)};
+
+        Point[] points4 = new Point[]{new Point(3, 2), new Point(3, 2), new Point(3, 2), new Point(1, 5), new Point(5, 5), new Point(5, 5), new Point(5, 5),new Point(1, 5), new Point(10, 3), new Point(10, 3), new Point(10, 3), new Point(1, 5),  new Point(4, 6), new Point(4, 6)};
+
+        Blueprint blueprintTest = filtre.getFlat(new Blueprint("","",points));
+        Blueprint blueprintTest1 = filtre.getFlat(new Blueprint("","",points1));
+        Blueprint blueprintTest2 = filtre.getFlat(new Blueprint("","",points2));
+        Blueprint blueprintTest3 = filtre.getFlat(new Blueprint("","",points3));
+        Blueprint blueprintTest4 = filtre.getFlat(new Blueprint("","",points4));
+
+        assertEquals("[ (3, 2) (10, 3) ]",blueprintTest.pointsToString());
+        assertEquals("[ (3, 2) (5, 5) (10, 3) (8, 9) ]",blueprintTest1.pointsToString());
+        assertEquals("[ (3, 2) (5, 5) (10, 3) (7, 8) ]",blueprintTest2.pointsToString());
+        assertEquals("[ (3, 2) (5, 5) (10, 3) (7, 7) ]",blueprintTest3.pointsToString());
+        assertEquals("[ (3, 2) (1, 5) (5, 5) (1, 5) (10, 3) (1, 5) (4, 6) ]",blueprintTest4.pointsToString());
     }
 }

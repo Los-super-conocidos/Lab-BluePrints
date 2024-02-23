@@ -20,7 +20,7 @@ public class Main {
         ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
         BlueprintsServices bps = ac.getBean(BlueprintsServices.class);
 
-        Point[] points = new Point[]{new Point(3, 2),new Point(3,2),new Point(10,3)};
+        Point[] points = new Point[]{new Point(3, 2),new Point(3,2),new Point(10,3),new Point(30,13),new Point(30,13),new Point(20,13),new Point(20,13),new Point(20,13),new Point(20,13)};
 
         Blueprint blueprint= new Blueprint("Christian","Arsw");
         Blueprint blueprintSpecified= new Blueprint("Carolina", "Arsw",points);

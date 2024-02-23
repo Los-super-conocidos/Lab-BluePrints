@@ -16,15 +16,16 @@ public class Subsampling implements BluePrintsFiltred {
     @Override
     public Blueprint getFlat(Blueprint flat) {
         List<Point> pointList =new ArrayList<>(flat.getPoints());
-        int counter = 1;
-        for(Point i: pointList){
-            if(counter%2 == 0){
-                pointList.remove(i);
+        List<Point> pointListAns =new ArrayList<>();
+
+        for(int i = 0;i<pointList.size();i++ ){
+            if(i%2 == 0){
+                pointListAns.add(pointList.get(i));
             }
-            counter++;
         }
+
         Point[] pnts;
-        pnts = pointList.toArray(new Point[0]);
+        pnts = pointListAns.toArray(new Point[0]);
         return new Blueprint(flat.getAuthor(),flat.getName(),pnts);
     }
 }
